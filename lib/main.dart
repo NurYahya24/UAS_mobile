@@ -98,8 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Container(
           color: Colors.white,
-          child: Image.asset("assets/images/logo-light.png",
-              width: 300, height: 200),
+          child: Image.asset("assets/images/logo.png", width: 300, height: 200),
         ),
       ),
     );

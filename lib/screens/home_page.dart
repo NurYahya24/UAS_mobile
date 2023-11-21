@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 child: Stack(
                   children: [
-                    Image.network(
+                    Image.asset(
                       item,
                       fit: BoxFit.cover,
                       width: 1000,
@@ -304,46 +304,76 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Container(
-                  width: 80,
-                  height: 70,
-                  margin: const EdgeInsets.only(top: 10, left: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.amber,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(
-                    Icons.tv,
-                    size: 30,
-                    color: Colors.white,
-                  ),
-                ),
-                Container(
-                  width: 80,
-                  height: 70,
-                  margin: const EdgeInsets.only(top: 10, left: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.cyan,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(
-                    Icons.desk,
-                    size: 30,
-                    color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const exploreCategory(
+                                  kategori: 'electronic',
+                                )));
+                  },
+                  child: Container(
+                    width: 80,
+                    height: 70,
+                    margin: const EdgeInsets.only(top: 10, left: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.tv,
+                      size: 30,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-                Container(
-                  width: 80,
-                  height: 70,
-                  margin: const EdgeInsets.only(top: 10, left: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.circular(10),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const exploreCategory(
+                                  kategori: 'tables & chairs',
+                                )));
+                  },
+                  child: Container(
+                    width: 80,
+                    height: 70,
+                    margin: const EdgeInsets.only(top: 10, left: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.cyan,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.desk,
+                      size: 30,
+                      color: Colors.white,
+                    ),
                   ),
-                  child: const Icon(
-                    Icons.bathroom,
-                    size: 20,
-                    color: Colors.white,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const exploreCategory(
+                                  kategori: 'bathroom',
+                                )));
+                  },
+                  child: Container(
+                    width: 80,
+                    height: 70,
+                    margin: const EdgeInsets.only(top: 10, left: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.orange,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.bathroom,
+                      size: 20,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ])),
@@ -388,8 +418,12 @@ class _HomePageState extends State<HomePage> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: _current == index
-                          ? Color.fromRGBO(0, 0, 0, 0.9)
-                          : Color.fromRGBO(0, 0, 0, 0.4),
+                          ? Theme.of(context).brightness == Brightness.light
+                              ? Color.fromRGBO(0, 0, 0, 0.9)
+                              : Color.fromRGBO(197, 197, 197, 0.898)
+                          : Theme.of(context).brightness == Brightness.light
+                              ? Color.fromRGBO(0, 0, 0, 0.4)
+                              : Color.fromRGBO(163, 163, 163, 0.894),
                     ),
                   );
                 }).toList(),

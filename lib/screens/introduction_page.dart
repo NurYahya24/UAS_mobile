@@ -25,7 +25,9 @@ class IntroductionPage extends StatelessWidget {
               "Halo, Selamat datang di IKOA Store - Portal Elegansi untuk Ruang Anda!",
           body:
               "Kami dengan bangga mempersembahkan kepada Anda solusi inovatif untuk semua kebutuhan furnitur Anda",
-          image: Image.asset("assets/images/logo-light.png"),
+          image: Image.asset(Theme.of(context).brightness == Brightness.dark
+              ? "assets/images/logo-light.png"
+              : "assets/images/logo.png"),
         ),
         PageViewModel(
           title: "Temukan ribuan pilihan furnitur berkualitas tinggi",

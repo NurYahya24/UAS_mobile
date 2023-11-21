@@ -48,10 +48,7 @@ class _ExplorePageState extends State<ExplorePage> {
                               : const Color.fromARGB(255, 34, 32, 32),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
-                  onPressed: () {
-                    print(
-                        widget.Barang?.callLengthCategories('kitchen').toInt());
-                  },
+                  onPressed: () {},
                   child: Column(
                     children: <Widget>[
                       Expanded(
@@ -78,7 +75,7 @@ class _ExplorePageState extends State<ExplorePage> {
                                       : Colors.white),
                             ),
                             Text(
-                              _list[index].hagra.toString(),
+                              _list[index].harga.toString(),
                               style: TextStyle(
                                   color: Theme.of(context).brightness ==
                                           Brightness.light
