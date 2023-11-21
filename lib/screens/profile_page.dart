@@ -46,10 +46,12 @@ class ProfilePage extends StatelessWidget {
                       ? "Disabled"
                       : "Enabled",
                   trailing: Switch.adaptive(
-                    value: Provider.of<ThemeModeData>(context).isDarkModeActive,
+                    value: Provider.of<ThemeModeData>(context, listen: false)
+                        .isDarkModeActive,
                     onChanged: (bool value) {
-                      Provider.of<ThemeModeData>(context).changeTheme(
-                          value ? ThemeMode.dark : ThemeMode.light);
+                      Provider.of<ThemeModeData>(context, listen: false)
+                          .changeTheme(
+                              value ? ThemeMode.dark : ThemeMode.light);
                     },
                   ),
                 ),

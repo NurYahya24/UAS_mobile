@@ -5,7 +5,6 @@ import 'package:posttest6/screens/introduction_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'theme_mode_data.dart';
-// import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
