@@ -1,6 +1,12 @@
-# posttest6
+# UAS MOBILE
 
-A new Flutter project.
+Anggota Kelompok :
+- Maulana Muhammad Hafidz
+- Muhammad Fhadil Hafids Harsandi
+- Nur Yahya
+- Muhammad Holan Ardinata Saragi
+- Mardianto Tandi Ramma
+- Aditya Rafiqi Pangestu
 
 ## Getting Started
 
