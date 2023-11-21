@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
 import 'data_local.dart';
 
-class ExplorePage extends StatefulWidget {
+class exploreCategory extends StatefulWidget {
+  final kategori;
   final barang? Barang;
-  const ExplorePage({super.key, this.Barang});
-
+  const exploreCategory({super.key, required this.kategori, this.Barang});
   @override
-  State<ExplorePage> createState() => _ExplorePageState();
+  State<exploreCategory> createState() => _exploreCategoryPageState();
 }
 
-class _ExplorePageState extends State<ExplorePage> {
+class _exploreCategoryPageState extends State<exploreCategory> {
   List _list = barang.listBarang;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 13, 31, 88),
+        iconTheme: IconThemeData(color: Colors.white),
+        centerTitle: true,
+        title: Text(
+          'Explore by Categories',
+          style: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: ListView(shrinkWrap: true, children: <Widget>[
         const SizedBox(
           height: 50,
@@ -21,7 +31,7 @@ class _ExplorePageState extends State<ExplorePage> {
         Padding(
             padding: EdgeInsets.only(left: 20, right: 16),
             child: Text(
-              'All Procuts',
+              widget.kategori.toString().toUpperCase(),
               style: TextStyle(
                   color: Theme.of(context).brightness == Brightness.light
                       ? Colors.black
@@ -48,10 +58,7 @@ class _ExplorePageState extends State<ExplorePage> {
                               : const Color.fromARGB(255, 34, 32, 32),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
-                  onPressed: () {
-                    print(
-                        widget.Barang?.callLengthCategories('kitchen').toInt());
-                  },
+                  onPressed: () {},
                   child: Column(
                     children: <Widget>[
                       Expanded(

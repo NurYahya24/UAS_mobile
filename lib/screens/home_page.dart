@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'explore_page.dart';
 import 'profile_page.dart';
+import 'explore_categories.dart';
 import 'package:flutter/cupertino.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -10,6 +11,12 @@ class MyHomePage extends StatefulWidget {
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
+
+List<String> _laman = [
+  'Home',
+  'Explore',
+  'Settings & Profile',
+];
 
 class _MyHomePageState extends State<MyHomePage> {
   int _index = 0;
@@ -30,8 +37,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 13, 31, 88),
-        title: const Text(
-          "IKOA FURNITURE",
+        centerTitle: true,
+        title: Text(
+          _laman.elementAt(_index),
           style: TextStyle(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
@@ -223,18 +231,28 @@ class _HomePageState extends State<HomePage> {
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(children: <Widget>[
-                Container(
-                  width: 80,
-                  height: 70,
-                  margin: const EdgeInsets.only(top: 10, left: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(
-                    Icons.dining,
-                    size: 30,
-                    color: Colors.white,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const exploreCategory(
+                                  kategori: 'kitchen',
+                                )));
+                  },
+                  child: Container(
+                    width: 80,
+                    height: 70,
+                    margin: const EdgeInsets.only(top: 10, left: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.dining,
+                      size: 30,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 Container(
