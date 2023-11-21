@@ -3,6 +3,7 @@ import 'explore_page.dart';
 import 'profile_page.dart';
 import 'explore_categories.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -90,9 +91,57 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+final List<String> imgList = [
+  'assets/images/banner1.jpg',
+  'assets/images/banner2.jpg',
+  'assets/images/banner3.jpg',
+  'assets/images/banner4.jpg'
+];
+
 class _HomePageState extends State<HomePage> {
+  int _current = 0;
   @override
   Widget build(BuildContext context) {
+    final List<Widget> imageSliders = imgList
+        .map((item) => Container(
+              height: 200,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5.0),
+                ),
+                child: Stack(
+                  children: [
+                    Image.network(
+                      item,
+                      fit: BoxFit.cover,
+                      width: 1000,
+                    ),
+                    Positioned(
+                      bottom: 0.0,
+                      left: 0.0,
+                      right: 0.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromARGB(200, 0, 0, 0),
+                              Color.fromARGB(0, 0, 0, 0),
+                            ],
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ))
+        .toList();
     return Scaffold(
       body: Center(
         child: ListView(children: [
@@ -311,56 +360,42 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          Stack(children: <Widget>[
-            Container(
-              width: 320,
-              height: 100,
-              margin: const EdgeInsets.only(left: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/banner1.jpg'),
-                  fit: BoxFit.cover,
-                ),
+          Column(
+            children: [
+              CarouselSlider(
+                items: imageSliders,
+                options: CarouselOptions(
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    aspectRatio: 3.1,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        _current = index;
+                      });
+                    }),
               ),
-            ),
-            Container(
-              width: 320,
-              height: 100,
-              margin: const EdgeInsets.only(top: 120, left: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/banner2.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Container(
-              width: 320,
-              height: 100,
-              margin: const EdgeInsets.only(top: 240, left: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/banner3.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            Container(
-              width: 320,
-              height: 100,
-              margin: const EdgeInsets.only(top: 370, left: 20),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2),
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/banner4.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: imgList.map((url) {
+                  int index = imgList.indexOf(url);
+                  return Container(
+                    width: 8,
+                    height: 8,
+                    margin: EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: 3,
+                    ),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _current == index
+                          ? Color.fromRGBO(0, 0, 0, 0.9)
+                          : Color.fromRGBO(0, 0, 0, 0.4),
+                    ),
+                  );
+                }).toList(),
+              )
+            ],
+          ),
           const Padding(
             padding: EdgeInsets.only(left: 20, top: 15),
             child: Align(
