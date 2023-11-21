@@ -10,6 +10,54 @@ import '../theme_mode_data.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage();
+  Future<void> showDeleteConfirmationDialog(BuildContext context) async {
+    Future<void> deleteAccount() async {
+      try {
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          await user.delete();
+          print("User account deleted.");
+        } else {
+          print("No user signed in.");
+        }
+      } catch (e) {
+        print("Error deleting account: $e");
+      }
+    }
+
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Delete Account"),
+          content: Text(
+              "Are you sure you want to delete your account? This action cannot be undone."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                await deleteAccount();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SignInScreen(),
+                  ),
+                );
+              },
+              child: Text(
+                "Delete",
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +150,9 @@ class ProfilePage extends StatelessWidget {
                   title: "Change Password",
                 ),
                 SettingsItem(
-                  onTap: () {},
+                  onTap: () async {
+                    showDeleteConfirmationDialog(context);
+                  },
                   icons: CupertinoIcons.delete_solid,
                   title: "Delete account",
                   titleStyle: TextStyle(
