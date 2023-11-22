@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: _pages.elementAt(_index),
       ),
       bottomNavigationBar: Container(
-        margin: const EdgeInsets.only(bottom: 15),
+        margin: const EdgeInsets.only(bottom: 15, top: 15),
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 13, 31, 88),
           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -430,33 +430,6 @@ class _HomePageState extends State<HomePage> {
               )
             ],
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 20, top: 15),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Shop By Style",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: ElevatedButton(
-                child: const Text('Japandi-Inspired Home'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/halaman3');
-                },
-                style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                            side: const BorderSide(
-                                color: Color.fromARGB(255, 13, 31, 88)))))),
-          )
         ]),
       ),
     );

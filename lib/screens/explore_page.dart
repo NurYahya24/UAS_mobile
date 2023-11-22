@@ -21,7 +21,7 @@ class _ExplorePageState extends State<ExplorePage> {
         Padding(
             padding: EdgeInsets.only(left: 20, right: 16),
             child: Text(
-              'All Procuts',
+              'All Product',
               style: TextStyle(
                   color: Theme.of(context).brightness == Brightness.light
                       ? Colors.black
