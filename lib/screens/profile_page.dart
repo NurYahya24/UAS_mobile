@@ -67,8 +67,10 @@ class ProfilePage extends StatelessWidget {
         child: ListView(
           children: [
             SimpleUserCard(
-              userName: "Mohammad Fhadil Hafids Harsandii",
+              imageRadius: 20,
+              userName: "Kelompok UAS",
               userProfilePic: const AssetImage('assets/images/kursi.jpg'),
+              icon: Icon(Icons.camera_alt_rounded),
             ),
             SettingsGroup(
               items: [

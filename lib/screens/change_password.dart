@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:posttest6/widgets/reusable_widget.dart';
 import 'package:posttest6/utils/color_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class changePassword extends StatefulWidget {
   const changePassword({Key? key}) : super(key: key);
@@ -17,10 +18,6 @@ class _changePasswordState extends State<changePassword> {
 
   Future<void> _changePassword() async {
     try {
-      setState(() {
-        _isLoading = true;
-      });
-
       var currentUser = _auth.currentUser;
       if (currentUser != null) {
         var cred = EmailAuthProvider.credential(
@@ -28,28 +25,51 @@ class _changePasswordState extends State<changePassword> {
             password: _oldpasswordTextController.text);
         await currentUser.reauthenticateWithCredential(cred);
         await currentUser.updatePassword(_newpasswordTextController.text);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Password changed successfully'),
-            duration: Duration(seconds: 2),
+        final snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'Change Password Was Successful',
+            message: 'You can now sign in to the app with new password',
+            contentType: ContentType.success,
           ),
         );
+
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(snackBar);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('User Not Found'),
-            duration: Duration(seconds: 2),
+        final snackBar = SnackBar(
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          content: AwesomeSnackbarContent(
+            title: 'User not found',
+            message: '',
+            contentType: ContentType.failure,
           ),
         );
+
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(snackBar);
       }
     } catch (error) {
-      print("Password change failed: $error");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Password change failed. Please try again.'),
-          duration: Duration(seconds: 2),
+      final snackBar = SnackBar(
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: AwesomeSnackbarContent(
+          title: 'Change Password Was Failed',
+          message: ' ',
+          contentType: ContentType.success,
         ),
       );
+
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(snackBar);
     } finally {
       setState(() {
         _isLoading = false;
@@ -69,11 +89,15 @@ class _changePasswordState extends State<changePassword> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
           "Change Password",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
       body: Container(
