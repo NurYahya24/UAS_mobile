@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'signin_screen.dart';
-import 'about_page.dart';
 import '../theme_mode_data.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -219,24 +218,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               value ? ThemeMode.dark : ThemeMode.light);
                     },
                   ),
-                ),
-              ],
-            ),
-            SettingsGroup(
-              items: [
-                SettingsItem(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AboutPage()));
-                  },
-                  icons: Icons.info_rounded,
-                  iconStyle: IconStyle(
-                    backgroundColor: Colors.purple,
-                  ),
-                  title: 'About',
-                  subtitle: "Learn more about IKOA FURNITURE",
                 ),
               ],
             ),

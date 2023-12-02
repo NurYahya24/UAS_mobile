@@ -98,6 +98,44 @@ final List<String> imgList = [
   'assets/images/banner4.jpg'
 ];
 
+List<Map<String, dynamic>> furnitureItems = [
+  {
+    'name': 'ARMCHAIR',
+    'price': 200000,
+    'image': 'assets/images/kursi.jpg',
+  },
+  {
+    'name': 'LENNART',
+    'price': 200000,
+    'image': 'assets/images/meja.jpg',
+  },
+  {
+    'name': 'VINLIDEN',
+    'price': 300000,
+    'image': 'assets/images/kursi2.jpg',
+  },
+  {
+    'name': 'LENNART',
+    'price': 200000,
+    'image': 'assets/images/meja.jpg',
+  },
+  {
+    'name': 'KNOXHULT',
+    'price': 200000,
+    'image': 'assets/images/KNOXHULT.png',
+  },
+  {
+    'name': 'VARIERA',
+    'price': 200000,
+    'image': 'assets/images/VARIERA.png',
+  },
+  {
+    'name': 'STÖDJA',
+    'price': 200000,
+    'image': 'assets/images/STÖDJA.png',
+  },
+];
+
 class _HomePageState extends State<HomePage> {
   int _current = 0;
   @override
@@ -158,111 +196,47 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Stack(children: <Widget>[
-              Container(
-                width: 160,
-                height: 100,
-                margin: const EdgeInsets.only(left: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  image: const DecorationImage(
-                    image: AssetImage('assets/images/kursi.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Container(
-                width: 160,
-                height: 100,
-                margin: const EdgeInsets.only(left: 200),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  image: const DecorationImage(
-                    image: AssetImage('assets/images/meja.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Container(
-                width: 160,
-                height: 100,
-                margin: const EdgeInsets.only(left: 380),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2),
-                  image: const DecorationImage(
-                    image: AssetImage('assets/images/kursi2.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              Stack(children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(top: 100, left: 20),
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          Container(
+            height: 150,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: furnitureItems.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  width: 160,
+                  margin: EdgeInsets.only(left: 20),
+                  child: Column(
                     children: <Widget>[
+                      Container(
+                        width: 160,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2),
+                          image: DecorationImage(
+                            image: AssetImage(furnitureItems[index]['image']),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5),
                       Text(
-                        'ARMCHAIR',
+                        furnitureItems[index]['name'],
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        'RP. 200.000',
+                        'RP. ${furnitureItems[index]['price']}',
                         style: TextStyle(
                           fontSize: 14,
                         ),
                       ),
                     ],
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 100, left: 200),
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'LENNART',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'RP. 240.000',
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 100, left: 380),
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'VINLIDEN',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'RP. 240.000',
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ])
-            ]),
+                );
+              },
+            ),
           ),
           const Padding(
             padding: EdgeInsets.only(left: 20, top: 15),
