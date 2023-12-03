@@ -15,6 +15,23 @@ class _changePasswordState extends State<changePassword> {
   TextEditingController _newpasswordTextController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool _isLoading = false;
+  String _oldPasswordError = '';
+  String _newPasswordError = '';
+  @override
+  void initState() {
+    super.initState();
+    _oldpasswordTextController.addListener(() {
+      setState(() {
+        _oldPasswordError = '';
+      });
+    });
+
+    _newpasswordTextController.addListener(() {
+      setState(() {
+        _newPasswordError = '';
+      });
+    });
+  }
 
   Future<void> _changePassword() async {
     try {
@@ -118,16 +135,33 @@ class _changePasswordState extends State<changePassword> {
                   height: 20,
                 ),
                 reusableTextField("Old Password", Icons.lock_outline, true,
-                    _oldpasswordTextController),
+                    _oldpasswordTextController,
+                    errorText: _oldPasswordError),
                 const SizedBox(
                   height: 20,
                 ),
                 reusableTextField("New Password", Icons.lock_outline, true,
-                    _newpasswordTextController),
+                    _newpasswordTextController,
+                    errorText: _newPasswordError),
                 const SizedBox(
                   height: 20,
                 ),
                 firebaseUIButton(context, "Change Password", () async {
+                  if (_oldpasswordTextController.text.isEmpty) {
+                    setState(() {
+                      _oldPasswordError = 'Old Password is required';
+                      _newPasswordError = '';
+                    });
+                    return;
+                  }
+
+                  if (_newpasswordTextController.text.isEmpty) {
+                    setState(() {
+                      _newPasswordError = 'New Password is required';
+                      _oldPasswordError = '';
+                    });
+                    return;
+                  }
                   await _changePassword();
                 }),
                 _isLoading

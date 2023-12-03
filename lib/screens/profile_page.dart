@@ -150,12 +150,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   @override
-  void didUpdateWidget(covariant ProfilePage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    print('ProfilePage updated');
-  }
-
-  @override
   void initState() {
     super.initState();
     _imageUrl = FirebaseAuth.instance.currentUser?.photoURL;

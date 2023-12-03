@@ -17,6 +17,24 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
+  String _emailError = '';
+  String _passwordError = '';
+  @override
+  void initState() {
+    super.initState();
+    _emailTextController.addListener(() {
+      setState(() {
+        _emailError = '';
+      });
+    });
+
+    _passwordTextController.addListener(() {
+      setState(() {
+        _passwordError = '';
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,17 +59,39 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 30,
                 ),
                 reus.reusableTextField("Enter email", Icons.person_outline,
-                    false, _emailTextController),
+                    false, _emailTextController,
+                    errorText: _emailError),
                 const SizedBox(
                   height: 20,
                 ),
-                reus.reusableTextField("Enter Password", Icons.lock_outline,
-                    true, _passwordTextController),
+                reus.reusableTextField(
+                  "Enter Password",
+                  Icons.lock_outline,
+                  true,
+                  _passwordTextController,
+                  errorText: _passwordError,
+                ),
                 const SizedBox(
                   height: 5,
                 ),
                 forgetPassword(context),
                 reus.firebaseUIButton(context, "Sign In", () {
+                  if (_emailTextController.text.isEmpty) {
+                    setState(() {
+                      _emailError = 'Email is required';
+                      _passwordError = '';
+                    });
+                    return;
+                  }
+
+                  if (_passwordTextController.text.isEmpty) {
+                    setState(() {
+                      _passwordError = 'Password is required';
+                      _emailError = '';
+                    });
+                    return;
+                  }
+
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
                           email: _emailTextController.text,

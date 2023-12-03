@@ -42,6 +42,24 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
+  String _emailError = '';
+  String _passwordError = '';
+  @override
+  void initState() {
+    super.initState();
+    _emailTextController.addListener(() {
+      setState(() {
+        _emailError = '';
+      });
+    });
+
+    _passwordTextController.addListener(() {
+      setState(() {
+        _passwordError = '';
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,16 +94,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 20,
                 ),
                 reusableTextField("Enter Email Id", Icons.person_outline, false,
-                    _emailTextController),
+                    _emailTextController,
+                    errorText: _emailError),
                 const SizedBox(
                   height: 20,
                 ),
                 reusableTextField("Enter Password", Icons.lock_outlined, true,
-                    _passwordTextController),
+                    _passwordTextController,
+                    errorText: _passwordError),
                 const SizedBox(
                   height: 20,
                 ),
                 firebaseUIButton(context, "Sign Up", () {
+                  if (_emailTextController.text.isEmpty) {
+                    setState(() {
+                      _emailError = 'Email is required';
+                      _passwordError = '';
+                    });
+                    return;
+                  }
+
+                  if (_passwordTextController.text.isEmpty) {
+                    setState(() {
+                      _passwordError = 'Password is required';
+                      _emailError = '';
+                    });
+                    return;
+                  }
                   FirebaseAuth.instance
                       .createUserWithEmailAndPassword(
                           email: _emailTextController.text,

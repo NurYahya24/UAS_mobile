@@ -4,6 +4,8 @@ import 'profile_page.dart';
 import 'explore_categories.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:posttest6/screens/detail_page.dart';
+import 'data_local.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -99,46 +101,9 @@ final List<String> imgList = [
   'assets/images/banner4.jpg'
 ];
 
-List<Map<String, dynamic>> furnitureItems = [
-  {
-    'name': 'ARMCHAIR',
-    'price': 200000,
-    'image': 'assets/images/kursi.jpg',
-  },
-  {
-    'name': 'LENNART',
-    'price': 200000,
-    'image': 'assets/images/meja.jpg',
-  },
-  {
-    'name': 'VINLIDEN',
-    'price': 300000,
-    'image': 'assets/images/kursi2.jpg',
-  },
-  {
-    'name': 'LENNART',
-    'price': 200000,
-    'image': 'assets/images/meja.jpg',
-  },
-  {
-    'name': 'KNOXHULT',
-    'price': 200000,
-    'image': 'assets/images/KNOXHULT.png',
-  },
-  {
-    'name': 'VARIERA',
-    'price': 200000,
-    'image': 'assets/images/VARIERA.png',
-  },
-  {
-    'name': 'STÖDJA',
-    'price': 200000,
-    'image': 'assets/images/STÖDJA.png',
-  },
-];
-
 class _HomePageState extends State<HomePage> {
   int _current = 0;
+  List _list = barang.listBarang;
   @override
   Widget build(BuildContext context) {
     final List<Widget> imageSliders = imgList
@@ -201,39 +166,62 @@ class _HomePageState extends State<HomePage> {
             height: 150,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: furnitureItems.length,
+              itemCount: _list.length,
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  width: 160,
-                  margin: EdgeInsets.only(left: 20),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: 160,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(2),
-                          image: DecorationImage(
-                            image: AssetImage(furnitureItems[index]['image']),
-                            fit: BoxFit.cover,
+                return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          Theme.of(context).brightness == Brightness.light
+                              ? Colors.white
+                              : const Color.fromARGB(255, 34, 32, 32),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProductDetails(
+                                  id: index,
+                                )));
+                  },
+                  child: Container(
+                    width: 160,
+                    margin: EdgeInsets.only(left: 20),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: 160,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(2),
+                            image: DecorationImage(
+                              image: AssetImage(_list[index].foto),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        furnitureItems[index]['name'],
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                        SizedBox(height: 5),
+                        Text(
+                          _list[index].nama.toString(),
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? Colors.black
+                                  : Colors.white),
                         ),
-                      ),
-                      Text(
-                        'RP. ${furnitureItems[index]['price']}',
-                        style: TextStyle(
-                          fontSize: 14,
+                        Text(
+                          'RP. ${_list[index].harga.toString()}',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? Colors.black
+                                  : Colors.white),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
