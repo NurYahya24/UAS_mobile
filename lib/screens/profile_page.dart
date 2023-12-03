@@ -19,7 +19,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   Uint8List? _pickedImageBytes;
-
+  String? _imageUrl;
+  String? _previousImageUrl;
   Future<void> _uploadProfileImage(Uint8List imageBytes) async {
     try {
       String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -40,6 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _pickImage() async {
+    _previousImageUrl = _imageUrl;
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
@@ -148,7 +150,22 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   @override
+  void didUpdateWidget(covariant ProfilePage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print('ProfilePage updated');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _imageUrl = FirebaseAuth.instance.currentUser?.photoURL;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_imageUrl != _previousImageUrl) {
+      _previousImageUrl = _imageUrl;
+    }
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -165,8 +182,25 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: _pickedImageBytes != null
                           ? Image.memory(_pickedImageBytes!,
                               fit: BoxFit.cover, width: 140, height: 140)
-                          : Image.network('assets/images/kursi.jpg',
-                              fit: BoxFit.cover, width: 140, height: 140),
+                          : _imageUrl != null
+                              ? Image.network(
+                                  _imageUrl!,
+                                  fit: BoxFit.cover,
+                                  width: 140,
+                                  height: 140,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    print('Error loading image: $error');
+                                    print(
+                                        'Image URL from Firebase: $_imageUrl');
+                                    return Image.network(
+                                        'assets/images/kursi.jpg',
+                                        fit: BoxFit.cover,
+                                        width: 140,
+                                        height: 140);
+                                  },
+                                )
+                              : Image.network('assets/images/kursi.jpg',
+                                  fit: BoxFit.cover, width: 140, height: 140),
                     ),
                   ),
                   Container(
