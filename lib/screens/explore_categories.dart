@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:posttest6/screens/detail_page.dart';
 import 'data_local.dart';
 
 class exploreCategory extends StatefulWidget {
@@ -59,7 +60,14 @@ class _exploreCategoryPageState extends State<exploreCategory> {
                                 : const Color.fromARGB(255, 34, 32, 32),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProductDetails(
+                                    id: index,
+                                  )));
+                    },
                     child: Column(
                       children: <Widget>[
                         Expanded(

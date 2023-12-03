@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:posttest6/firebase_options.dart';
-import 'package:posttest6/screens/detail_page.dart';
 import 'dart:async';
 import 'package:posttest6/screens/introduction_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -65,7 +64,7 @@ class MyApp extends StatelessWidget {
               ),
             ),
             themeMode: Provider.of<ThemeModeData>(context).themeMode,
-            home: ProductDetails(),
+            home: MyHomePage(),
             debugShowCheckedModeBanner: false);
       }),
     );
