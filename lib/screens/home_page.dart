@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
             height: 150,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: _list.length,
+              itemCount: 5,
               itemBuilder: (BuildContext context, int index) {
                 return ElevatedButton(
                   style: ElevatedButton.styleFrom(

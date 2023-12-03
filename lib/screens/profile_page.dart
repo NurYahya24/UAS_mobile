@@ -6,6 +6,7 @@ import 'package:posttest6/screens/change_password.dart';
 import 'package:babstrap_settings_screen/babstrap_settings_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:posttest6/screens/fav_page.dart';
 import 'package:provider/provider.dart';
 import 'signin_screen.dart';
 import '../theme_mode_data.dart';
@@ -216,6 +217,22 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             SettingsGroup(
               items: [
+                SettingsItem(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FavPage()));
+                  },
+                  icons: Icons.favorite_border,
+                  iconStyle: IconStyle(
+                    iconsColor: Colors.white,
+                    withBackground: true,
+                    backgroundColor: Colors.blue,
+                  ),
+                  title: 'Favorite',
+                  subtitle: "List of your favorite products",
+                ),
                 SettingsItem(
                   onTap: () {
                     Provider.of<ThemeModeData>(context, listen: false)

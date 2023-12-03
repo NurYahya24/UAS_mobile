@@ -127,6 +127,33 @@ class _ProductDetailsState extends State<ProductDetails> {
         .snapshots();
   }
 
+  Stream<QuerySnapshot> cekFav() {
+    //var id = FirebaseAuth.instance.currentUser!.uid;
+    return FirebaseFirestore.instance
+        .collection('barang')
+        .doc(widget.id.toString())
+        .collection('favorite')
+        .snapshots();
+  }
+
+  void setFav(bool cek) {
+    cek = !cek;
+    final id = FirebaseAuth.instance.currentUser!.uid;
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    db
+        .collection('barang')
+        .doc(widget.id.toString())
+        .collection('favorite')
+        .doc(id)
+        .set({"loved": cek});
+    db
+        .collection('favorite')
+        .doc(id)
+        .collection('barang')
+        .doc(widget.id.toString())
+        .set({"loved": cek});
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -145,11 +172,46 @@ class _ProductDetailsState extends State<ProductDetails> {
                 fontSize: 20,
                 fontWeight: FontWeight.bold)),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.favorite),
-            color: Colors.redAccent,
-          )
+          StreamBuilder<QuerySnapshot>(
+              stream: cekFav(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return CircularProgressIndicator();
+                  default:
+                    if (snapshot.hasError) {
+                      return Icon(Icons.warning);
+                    } else {
+                      if (snapshot.data!.docs.isEmpty) {
+                        setFav(true);
+                        return CircularProgressIndicator();
+                      } else {
+                        var id = FirebaseAuth.instance.currentUser!.uid;
+                        int index = 0;
+                        int panjang = snapshot.data!.docs.length;
+                        for (int i = 0; i < panjang; i++) {
+                          if (snapshot.data!.docs[i].id == id) {
+                            index = i;
+                          }
+                        }
+                        if (snapshot.data!.docs[index].exists) {
+                          bool cek = snapshot.data!.docs[index]['loved'];
+                          return IconButton(
+                            onPressed: () {
+                              setFav(cek);
+                            },
+                            icon: Icon(
+                                cek ? Icons.favorite : Icons.favorite_border),
+                            color: Colors.redAccent,
+                          );
+                        } else {
+                          setFav(true);
+                          return CircularProgressIndicator();
+                        }
+                      }
+                    }
+                }
+              }),
         ],
       ),
       body: Center(
@@ -212,13 +274,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Text(
-                        "Kursi ComfortPro adalah pilihan sempurna untuk menciptakan\nkenyamanan dan gaya di ruang duduk Anda. \n\nDesain ergonomis yang inovatif menjadikan kursi ini pilihan utama untuk mereka yang menghargai kualitas dan fungsionalitas.",
+                    Text(_list[widget.id].desk,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                             color:
                                 Theme.of(context).brightness == Brightness.light
-                                    ? Colors.grey
+                                    ? const Color.fromARGB(255, 134, 134, 134)
                                     : Colors.white,
                             fontSize: 15)),
                     const SizedBox(height: 20),
