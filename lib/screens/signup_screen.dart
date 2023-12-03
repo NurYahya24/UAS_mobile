@@ -91,6 +91,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           email: _emailTextController.text,
                           password: _passwordTextController.text)
                       .then((value) {
+                    _emailTextController.clear();
+                    _passwordTextController.clear();
                     final snackBar = SnackBar(
                       elevation: 0,
                       behavior: SnackBarBehavior.floating,
@@ -106,13 +108,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ..hideCurrentSnackBar()
                       ..showSnackBar(snackBar);
                   }).onError((error, stackTrace) {
+                    _passwordTextController.clear();
                     final snackBar = SnackBar(
                       elevation: 0,
                       behavior: SnackBarBehavior.floating,
                       backgroundColor: Colors.transparent,
                       content: AwesomeSnackbarContent(
                         title: 'Registration Failed',
-                        message: 'Try registering again!',
+                        message: _handleRegistrationError(error),
                         contentType: ContentType.warning,
                       ),
                     );
@@ -146,5 +149,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
         )
       ],
     );
+  }
+
+  String _handleRegistrationError(dynamic error) {
+    if (error is FirebaseAuthException) {
+      switch (error.code) {
+        case 'email-already-in-use':
+          return 'Email is already in use. Please use a different email.';
+        default:
+          return 'Registration failed. Try again later.';
+      }
+    } else {
+      return 'An error occurred during registration.';
+    }
   }
 }
